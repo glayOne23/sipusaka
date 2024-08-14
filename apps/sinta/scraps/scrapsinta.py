@@ -11,7 +11,9 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 logger = logging.getLogger(__name__)
 
-class ScrapSinta():
+
+
+class Scrap():
     """Module for parent scrapt"""
     browser = None
 
@@ -21,9 +23,19 @@ class ScrapSinta():
     ) -> None:
         self.browser = browser
 
+    def run_webdriverwait(self):
+        """run webdriver"""
+        WebDriverWait(driver=self.browser, timeout=5).until(
+            expected_conditions.presence_of_all_elements_located((By.TAG_NAME, "body"))
+        )
+
     def get_data(self) -> list:
         """get data from scrapt"""
         return []
+
+
+class ScrapSinta(Scrap):
+    """Module for parent scrapt"""
 
     def go_next(self):
         """go next"""
@@ -48,9 +60,7 @@ class ScrapSinta():
                     "proses url: %s",
                     self.browser.current_url
                 )
-                WebDriverWait(driver=self.browser, timeout=5).until(
-                    expected_conditions.presence_of_all_elements_located((By.TAG_NAME, "body"))
-                )
+                self.run_webdriverwait()
                 data_list = self.get_data()
             except TimeoutException:
                 logger.warning(
@@ -70,26 +80,13 @@ class ScrapSinta():
                 break
 
 
-class ScrapSintaDetail():
+class ScrapSintaDetail(Scrap):
     """Module for parent scrapt"""
-    browser = None
-
-    def __init__(
-        self,
-        browser: webdriver,
-    ) -> None:
-        self.browser = browser
-
-    def get_data(self) -> list:
-        """get data from scrapt"""
-        return []
 
     def scrap(self):
         """Scrap detail university"""
         self.browser.switch_to.window(self.browser.window_handles[1])
-        WebDriverWait(driver=self.browser, timeout=5).until(
-            expected_conditions.presence_of_all_elements_located((By.TAG_NAME, "body"))
-        )
+        self.run_webdriverwait()
         data_list = self.get_data()
         self.browser.close()
         self.browser.switch_to.window(self.browser.window_handles[0])
