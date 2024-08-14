@@ -1,0 +1,13 @@
+.env
+env/
+venv/
+__pycache__/
+.vscode
+
+project/media/*
+.pydevproject
+db.sqlite3
+*.pyc
+media/*
+!media/readme.txt
+.idea/

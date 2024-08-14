@@ -1,0 +1,101 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load angka %}
+
+{% block title %}Daftar Buku{% endblock title %}
+
+{% block content %}
+<main id="main">
+    
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+        <nav>
+          <div class="container">
+            <ol>
+              <li><a href="{% url 'landingpage:buku' %}">Buku</a></li>
+              <li>Daftar Buku</li>
+            </ol>
+          </div>
+        </nav>
+      </div><!-- End Breadcrumbs -->
+
+
+    <!-- ======= Blog Details Section ======= -->
+    <section id="blog" class="blog">
+        <div class="container" data-aos="fade-up">
+  
+          <div class="row g-5">
+
+            <!-- ======= Searching ======= -->
+            <div class="col-lg-4">
+              {% include "landingpage/buku/parts/sidebar.html" %}
+            </div>            
+            <!-- ======= End Searching ======= -->
+
+
+            <!-- ======= List Books ======= -->
+            <div class="col-lg-8">              
+                <div class="mb-2">
+                  <span>
+                    Menampilkan {{tampilkan.from|rupiah}} - {{tampilkan.to|rupiah}} buku dari total {{tampilkan.total|rupiah}} 
+                    {% if search_text %}
+                      untuk <strong>"{{search_text}}"</strong>
+                    {% endif %}                    
+                    </span>
+                </div>              
+                <div class="row gy-4 posts-list">
+                    {% for buku in bukus %}
+                        <div class="col-xl-4 col-md-6">
+                            <article>
+                
+                              <div class="post-img">
+                                  <!-- <img src="{% static 'impact/assets/img/portfolio/books-1.jpg' %} " alt="" class="img-fluid"> -->
+                                  {% if buku.cover %}
+                                  <img src="{{ MEDIA_URL }}{{buku.cover}}" alt="" class="img-fluid">
+                                  {% else %}
+                                    <img src="{{buku.cover_url}}" alt="" class="img-fluid">
+                                  {% endif %}
+                              </div>
+
+                              <h2 class="title">
+                                <a href="{% url 'landingpage:buku' buku.id %}">{{buku.judul}}</a>
+                              </h2>                              
+                              
+                              <p class="post-category"><a href="">
+                                {% for kategori in buku.kategoris.all %}
+                                {% if kategori %}                                                                
+                                  <span class="badge bg-primary-color">
+                                    {{kategori}}
+                                  </span>
+                                {% endif %}
+                                {% endfor %}
+                              </a></p>
+                                                                  
+                              <div class="d-flex align-items-center">                            
+                                  <div class="post-meta">
+                                      <p class="post-date">
+                                          <time datetime="2022-01-01">{{buku.created_at}}</time>
+                                      </p>
+                                      <p class="post-author-list">Rp {{buku.harga|rupiah}}</p>
+                                  </div>
+                              </div>
+                
+                            </article>
+                        </div><!-- End post list item -->
+                    {% endfor %}
+                </div>
+
+                {% include "landingpage/buku/parts/pagination.html" %}
+            </div>
+            <!-- ======= End List Books ======= -->
+              
+          </div>
+  
+        </div>
+    </section><!-- End Blog Details Section -->      
+
+</main>
+  
+{% endblock content %}
+
+

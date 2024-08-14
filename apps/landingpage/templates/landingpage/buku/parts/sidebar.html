@@ -1,0 +1,27 @@
+{% load angka %}
+
+<form action="{% url 'landingpage:buku' %}">
+  <div class="sidebar">
+    
+    <div class="sidebar-item search-form">
+      <h3 class="sidebar-title">Cari Buku</h3>
+      <div class="mt-3">
+        <input type="text" name="search" value="{{search_text}}">
+        <button type="submit"><i class="bi bi-search"></i></button>
+      </div>
+      </div><!-- End sidebar search formn-->
+      
+      <div class="sidebar-item categories">
+        <h3 class="sidebar-title">Kategori</h3>
+        <ul class="mt-3">
+          {% for kategori in kategoris %}                      
+          <li>            
+            <input type="checkbox" class="form-check-input" name="kategori" value="{{kategori.id}}" {% if kategori.id|stringformat:"i" in search_kategori %} checked {% endif %} id="kategori-{{kategori.id}}">
+            <label for="kategori-{{kategori.id}}"> {{kategori.nama}} <span>({{kategori.jumlah|rupiah}})</span></label>                          
+          </li>
+          {% endfor %}                      
+        </ul>
+      </div><!-- End sidebar categories-->
+      
+    </div><!-- End Blog Sidebar -->
+  </form>

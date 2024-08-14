@@ -1,0 +1,11 @@
+pylint==3.2.6
+
+Django==5.0.7
+django-hijack==3.6.0
+django-watson==1.6.3
+
+mysqlclient==2.2.4
+
+python-decouple==3.8
+
+selenium==4.23.1

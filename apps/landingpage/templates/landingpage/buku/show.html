@@ -1,0 +1,148 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% load angka %}
+
+{% block title %}Buku - {{buku.judul}}{% endblock title %}
+
+{% block content %}
+<main id="main">
+    
+    <!-- ======= Breadcrumbs ======= -->
+    <div class="breadcrumbs">
+        <nav>
+          <div class="container">
+            <ol>
+              <li><a href="{% url 'landingpage:buku' %}">Buku</a></li>
+              <li>{{buku.judul}}</li>
+            </ol>
+          </div>
+        </nav>
+      </div><!-- End Breadcrumbs -->
+
+
+    <!-- ======= Blog Section ======= -->
+    <section id="blog" class="blog">
+        <div class="container" data-aos="fade-up">
+  
+          <div class="row g-5">
+
+            <!-- ======= Searching ======= -->
+            <div class="col-lg-4 order-sm-2 order-lg-1">
+              {% include "landingpage/buku/parts/sidebar.html" %}
+            </div>            
+            <!-- ======= End Searching ======= -->
+
+
+            <!-- ======= List Books ======= -->
+            <div class="col-lg-8 order-sm-1 order-lg-2 team">
+                <div class="row gy-4">
+
+                  <div class="col-12 d-flex" data-aos="fade-up" data-aos-delay="100">
+                    <div class="row member">
+                      <div class="col-sm-12 col-md-6">                        
+                          <!-- <img src="{% static 'impact/assets/img/portfolio/books-1.jpg' %}" class="img-fluid" alt="">                       -->
+                          {% if buku.cover %}
+                            <img src="{{ MEDIA_URL }}{{buku.cover}}" class="img-fluid" alt="buku tidak ada">                      
+                          {% else %}
+                            <img src="{{buku.cover_url}}" class="img-fluid" alt="buku tidak ada">                      
+                          {% endif %}
+                          {% if buku.isi_buku %}                                                        
+                            <!-- <a href="{{MEDIA_URL}}{{buku.isi_buku}}" target="_blank" class="btn btn-success mt-2">Lihat Buku</a> -->
+                            <a href="{% url 'landingpage:buku.baca_pdf' buku.id %}" target="_blank" class="btn btn-success mt-2">Lihat Buku</a>
+                          {% endif %}
+                      </div>
+                      <div class="col-xs-12 col-md-6">
+                        <h4>{{buku.judul}}</h4>
+                        <p>{% for author in buku.authors.all %}{{author}}, {% endfor %}</p>
+                        <h4 class="text-success">Rp {{buku.harga|rupiah}}</h4>
+                        <hr>                        
+                        <div style="text-align: left;">
+                            <table>                              
+                              <tr>
+                                <td>Kategori</td>
+                                <td>:</td>
+                                <td>{% for kategori in buku.kategoris.all %}{{kategori}}, {% endfor %}</td>
+                              </tr>                                                                                                                                                                 
+                              <tr>
+                                <td>Kelompok Pembaca</td>
+                                <td>:</td>
+                                <td>{{buku.get_kelompok_pembaca_display}}</td>
+                              </tr>
+                              <tr>
+                                <td>Jenis Pustaka</td>
+                                <td>:</td>
+                                <td>{{buku.get_jenis_pustaka_display}}</td>
+                              </tr>                              
+                              <tr>
+                                <td>Kategori Jenis</td>
+                                <td>:</td>
+                                <td>{{buku.get_kategori_jenis_display}}</td>
+                              </tr>                                                            
+                              <tr>
+                                <td>Kategori Buku</td>
+                                <td>:</td>
+                                <td>{{buku.get_kategori_buku_display}}</td>
+                              </tr>                                                                                          
+                              <tr>
+                                <td>Stok</td>
+                                <td>:</td>
+                                <td>{{buku.stok}}</td>
+                              </tr>                                                                                                                                   
+                              <tr>
+                                <td>ISBN</td>
+                                <td>:</td>
+                                <td>{{buku.isbn}}</td>
+                              </tr>
+                              <tr>
+                                <td>Ukuran</td>
+                                <td>:</td>
+                                <td>{{buku.dimensi}}</td>
+                              </tr>                              
+                              <tr>
+                                <td>Format</td>
+                                <td>:</td>
+                                <td>{{buku.format}}</td>
+                              </tr>
+                              <tr>
+                                <td>Halaman</td>
+                                <td>:</td>
+                                <td>{{buku.halaman}}</td>
+                              </tr>            
+                              <tr>
+                                <td>Tahun Terbit</td>
+                                <td>:</td>
+                                <td>{{buku.tahun}}</td>
+                              </tr>     
+                              <tr>
+                                <td>Cetakan ke</td>
+                                <td>:</td>
+                                <td>{{buku.cetakan_ke}}</td>
+                              </tr>
+                            </table>                            
+                          </div> 
+                          
+                          <hr>
+                          <div style="text-align: left;">
+                            Sinopsis                            
+                            <p>{{buku.sinopsis}}</p>
+                          </div>
+                          
+                      </div>
+                    </div>
+                  </div><!-- End Team Member -->
+
+                </div>
+                
+            </div>
+            <!-- ======= End List Books ======= -->
+              
+          </div>
+  
+        </div>
+    </section><!-- End Blog Details Section -->      
+
+</main>
+  
+{% endblock content %}
+
+
