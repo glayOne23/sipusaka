@@ -24,7 +24,7 @@ class Command(BaseCommand):
         logger.info("mulai scrap University")
         url_start = "https://sinta.kemdikbud.go.id/affiliations"
         self.browser.get(url_start)
-        ScrapUniversity(self.browser).scrap()
+        ScrapUniversity(self.browser).scrap(University)
 
         # try:
         #     while True:
