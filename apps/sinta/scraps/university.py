@@ -8,54 +8,11 @@ from selenium.webdriver.common.keys import Keys
 
 logger = logging.getLogger(__name__)
 
-class ScrapUniversityDetail(ScrapSintaDetail):
-    """Scrap detail university"""
-
-    def get_data(self) -> list:
-        author, department, journal = self.browser.find_elements(
-            By.XPATH, """
-            //div[contains(@class,'row stat-card affil-profile-card')]
-            //div[contains(@class,'col-md mb-2')]
-            //div[contains(@class,'stat-num')]
-            """
-        )
-
-        article_total = self.browser.find_elements(
-            By.XPATH, """
-            //table[contains(@class,'table table-borderless table-sm text-center stat-table')]
-            //td
-            """
-        )
-
-        # for idx, td in enumerate(article_total):
-        #     print(idx, td.get_attribute('innerHTML'), td.text)
-
-        def change_to_int(obj):
-            return  int(obj.get_attribute('innerHTML').strip().replace('.', ''))
-
-        detail = {
-            "total_author": int(author.text.strip().replace('.', '')),
-            "total_department": int(department.text.strip().replace('.', '')),
-            "total_journal": int(journal.text.strip().replace('.', '')),
-            "total_document_scopus": change_to_int(article_total[1]),
-            "total_document_gsholar": change_to_int(article_total[2]),
-            "total_document_wos": change_to_int(article_total[3]),
-            "total_document_garuda": change_to_int(article_total[4]),
-            "total_citation_scopus": change_to_int(article_total[6]),
-            "total_citation_gsholar": change_to_int(article_total[7]),
-            "total_citation_wos": change_to_int(article_total[8]),
-            "total_citation_garuda": change_to_int(article_total[9]),
-        }
-
-        return detail
-
-
 class ScrapUniversity(ScrapSinta):
     """Scrap all university in general"""
 
     def get_data(self) -> list:
         universities = self.browser.find_elements(By.CSS_SELECTOR, ".content-list > .list-item")
-
         data_list = []
         for univ in universities:
             sinta_id, sinta_code = univ.find_element(
@@ -77,7 +34,6 @@ class ScrapUniversity(ScrapSinta):
                         By.XPATH, ".//span[contains(@class,'num-stat ml-3')]"
                         ).text.strip().split(' Authors')[0].replace(",", '')
                     )
-
             data = {
                 "sinta_id": int(sinta_id),
                 "sinta_code": sinta_code,
@@ -87,11 +43,46 @@ class ScrapUniversity(ScrapSinta):
                 "total_department": total_department,
                 "total_author": total_author
             }
-
             affil_name.send_keys(Keys.CONTROL + Keys.ENTER)
             detail = ScrapUniversityDetail(self.browser).scrap()
             data.update(detail)
             data_list.append(data)
             logger.info(data)
-
         return data_list
+
+
+class ScrapUniversityDetail(ScrapSintaDetail):
+    """Scrap detail university"""
+
+    def get_data(self) -> list:
+        author, department, journal = self.browser.find_elements(
+            By.XPATH, """
+            //div[contains(@class,'row stat-card affil-profile-card')]
+            //div[contains(@class,'col-md mb-2')]
+            //div[contains(@class,'stat-num')]
+            """
+        )
+        article_total = self.browser.find_elements(
+            By.XPATH, """
+            //table[contains(@class,'table table-borderless table-sm text-center stat-table')]
+            //td
+            """
+        )
+        # for idx, td in enumerate(article_total):
+        #     print(idx, td.get_attribute('innerHTML'), td.text)
+        def change_to_int(obj):
+            return  int(obj.get_attribute('innerHTML').strip().replace('.', ''))
+        detail = {
+            "total_author": int(author.text.strip().replace('.', '')),
+            "total_department": int(department.text.strip().replace('.', '')),
+            "total_journal": int(journal.text.strip().replace('.', '')),
+            "total_document_scopus": change_to_int(article_total[1]),
+            "total_document_gsholar": change_to_int(article_total[2]),
+            "total_document_wos": change_to_int(article_total[3]),
+            "total_document_garuda": change_to_int(article_total[4]),
+            "total_citation_scopus": change_to_int(article_total[6]),
+            "total_citation_gsholar": change_to_int(article_total[7]),
+            "total_citation_wos": change_to_int(article_total[8]),
+            "total_citation_garuda": change_to_int(article_total[9]),
+        }
+        return detail

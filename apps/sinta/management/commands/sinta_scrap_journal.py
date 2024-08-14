@@ -2,6 +2,7 @@
 
 import logging
 
+from apps.sinta.models.university import University
 from apps.sinta.scraps._helper import get_browser
 from apps.sinta.scraps.journal import ScrapJournal
 from django.core.management.base import BaseCommand
@@ -21,9 +22,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         logger.info("mulai scrap journal")
-        url_start = "https://sinta.kemdikbud.go.id/affiliations/?page=569"
-        self.browser.get(url_start)
-        ScrapJournal(self.browser).scrap()
+        universities = University.objects.all()
+        for univ in universities:
+            url_start = f"https://sinta.kemdikbud.go.id/journals/index/{univ.sinta_id}"
+            self.browser.get(url_start)
+            ScrapJournal(self.browser).scrap()
 
         # try:
         #     while True:

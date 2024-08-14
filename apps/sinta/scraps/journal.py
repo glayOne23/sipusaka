@@ -10,4 +10,4 @@ class ScrapJournal(ScrapSinta):
     """Scrap all journal in general"""
 
     def get_data(self) -> list:
-        pass
+        return []

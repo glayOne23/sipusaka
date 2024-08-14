@@ -10,9 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
-from pathlib import Path
-from decouple import config, Csv # https://github.com/henriquebastos/python-decouple
 import os
+from pathlib import Path
+from decouple import (Csv,  # https://github.com/henriquebastos/python-decouple
+                      config)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -150,7 +151,7 @@ MEDIA_URL = '/media/'
 # ========[EMAIL]========
 ACTIVATE_SEND_EMAIL     = config('ACTIVATE_SEND_EMAIL', default=False)
 EMAIL_SUBJECT_PREFIX    = '[IAIN SIPUSAKA] '
-EMAIL_VERIFICATION      = config('EMAIL_VERIFICATION',  default=False) # If set to True, the user needs to verify email during registration (Fill in the data below if set to true)
+EMAIL_VERIFICATION      = config('EMAIL_VERIFICATION',  default=False)
 EMAIL_BACKEND           = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST_USER         = config('EMAIL_HOST_USER',     default=None) # <= 'YOUR_EMAIL@GOOGLE.COM'
 EMAIL_HOST_PASSWORD     = config('EMAIL_HOST_PASSWORD', default=None) # <= 'YOUR_PASSWORD'
