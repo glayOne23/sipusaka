@@ -54,11 +54,12 @@ class ScrapSinta(Scrap):
 
     def save_to_db(self, model:Model, data_list: list):
         """save to db"""
-        # univ_to_create = [model(**data) for data in data_list]
-        # model.objects.bulk_create(univ_to_create)
-        for data in data_list:
-            if not model.objects.filter(sinta_id=data['sinta_id']).exists():
-                model.objects.create(**data)
+        univ_to_create = [model(**data) for data in data_list]
+        model.objects.bulk_create(univ_to_create)
+        ## for journal only - couse order in sinta is random
+        # for data in data_list:
+        #     if not model.objects.filter(sinta_id=data['sinta_id']).exists():
+        #         model.objects.create(**data)
 
 
     def scrap(self, model: Model = None):
