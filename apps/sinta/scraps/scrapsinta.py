@@ -11,17 +11,20 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 logger = logging.getLogger(__name__)
 
-
-
 class Scrap():
     """Module for parent scrapt"""
     browser = None
+    option = None
+    data_values = {}
 
     def __init__(
         self,
         browser: webdriver,
+        data_values: dict = None
     ) -> None:
         self.browser = browser
+        self.data_values = data_values
+
 
     def run_webdriverwait(self):
         """run webdriver"""
@@ -29,9 +32,11 @@ class Scrap():
             expected_conditions.presence_of_all_elements_located((By.TAG_NAME, "body"))
         )
 
-    def get_data(self) -> list:
-        """get data from scrapt"""
-        return []
+    def get_data(self, data_values:dict = None) -> list:
+        """get data from scrap"""
+        if not data_values:
+            return []
+        return data_values
 
 
 class ScrapSinta(Scrap):
@@ -49,11 +54,15 @@ class ScrapSinta(Scrap):
 
     def save_to_db(self, model:Model, data_list: list):
         """save to db"""
-        univ_to_create = [model(**data) for data in data_list]
-        model.objects.bulk_create(univ_to_create)
+        # univ_to_create = [model(**data) for data in data_list]
+        # model.objects.bulk_create(univ_to_create)
+        for data in data_list:
+            if not model.objects.filter(sinta_id=data['sinta_id']).exists():
+                model.objects.create(**data)
+
 
     def scrap(self, model: Model = None):
-        """Scrap all universities in general"""
+        """Scrap all in general"""
         while True:
             try:
                 logger.info(
@@ -61,7 +70,7 @@ class ScrapSinta(Scrap):
                     self.browser.current_url
                 )
                 self.run_webdriverwait()
-                data_list = self.get_data()
+                data_list = self.get_data(self.data_values)
             except TimeoutException:
                 logger.warning(
                     "ada error timeout ketika sampai di %s",
@@ -81,10 +90,10 @@ class ScrapSinta(Scrap):
 
 
 class ScrapSintaDetail(Scrap):
-    """Module for parent scrapt"""
+    """Module for detail sinta scrapt"""
 
     def scrap(self):
-        """Scrap detail university"""
+        """Scrap detail"""
         self.browser.switch_to.window(self.browser.window_handles[1])
         self.run_webdriverwait()
         data_list = self.get_data()

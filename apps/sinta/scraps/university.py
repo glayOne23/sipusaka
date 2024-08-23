@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class ScrapUniversity(ScrapSinta):
     """Scrap all university in general"""
 
-    def get_data(self) -> list:
+    def get_data(self, data_values:dict = None) -> list:
         universities = self.browser.find_elements(By.CSS_SELECTOR, ".content-list > .list-item")
         data_list = []
         for univ in universities:
@@ -54,7 +54,7 @@ class ScrapUniversity(ScrapSinta):
 class ScrapUniversityDetail(ScrapSintaDetail):
     """Scrap detail university"""
 
-    def get_data(self) -> list:
+    def get_data(self, data_values:dict = None) -> list:
         author, department, journal = self.browser.find_elements(
             By.XPATH, """
             //div[contains(@class,'row stat-card affil-profile-card')]
