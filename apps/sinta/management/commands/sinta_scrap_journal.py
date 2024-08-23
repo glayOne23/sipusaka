@@ -23,8 +23,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         logger.info("mulai scrap journal")
-        # universities = University.objects.all()
-        universities = University.objects.filter(id__gt=389)
+        universities = University.objects.all()
         for univ in universities:
             if univ.total_journal:
                 url_start = f"https://sinta.kemdikbud.go.id/journals/index/{univ.sinta_id}"
