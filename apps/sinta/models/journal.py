@@ -32,5 +32,5 @@ class Journal(models.Model):
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return f"{self.sinta_id} - {self.name}"
+        return f"{self.id} - {self.sinta_id} - {self.name}"
 
