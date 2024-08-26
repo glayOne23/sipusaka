@@ -66,10 +66,10 @@ class ScrapSinta(Scrap):
         """Scrap all in general"""
         while True:
             try:
-                logger.info(
-                    "proses url: %s",
-                    self.browser.current_url
-                )
+                # logger.info(
+                #     "proses url: %s",
+                #     self.browser.current_url
+                # )
                 self.run_webdriverwait()
                 data_list = self.get_data(self.data_values)
             except TimeoutException:

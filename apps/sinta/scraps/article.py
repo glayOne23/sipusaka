@@ -12,6 +12,9 @@ class ScrapArticle(ScrapSinta):
     """Scrap all article in general"""
 
     def get_data(self, data_values:dict = None) -> list:
+        logger.info(
+            f"proses url: %s - {self.browser.current_url}", data_values['journal'].id
+        )
 
         exclamation = self.browser.find_elements(
             By.XPATH, """
@@ -25,7 +28,7 @@ class ScrapArticle(ScrapSinta):
             By.XPATH, """
             //div[contains(@class,'ui segment padded article-box')]//div[contains(@class,'ui top attached label')]
             """
-        ).text.replace('Articles', '').replace('Documents', '').strip()
+        ).text.replace('Articles', '').replace('Documents', '').replace(',','').strip()
 
         articles = self.browser.find_elements(
             By.XPATH, """
@@ -41,31 +44,53 @@ class ScrapArticle(ScrapSinta):
             garuda_id = title.get_attribute('href').replace(
                 'https://garuda.kemdikbud.go.id/documents/detail/', ''
             )
+
             volume, publisher = article.find_elements(
                     By.XPATH, ".//xmp[contains(@class,'subtitle-article')]"
                     )
-            _, file, source, gsholar, _ = article.find_elements(
+
+            actions = article.find_elements(
                     By.XPATH, ".//p[contains(@class,'action-article')]//a[contains(@class,'title-citation')]"
                     )
-            # abstract = article.find_element(
-            #         By.XPATH, ".//xmp[contains(@class,'abstract-article')]"
-            #         )
-            # data = {
-            #     "garuda_id": int(garuda_id),
-            #     "garuda_url": garuda_url,
-            #     "title": title.text.strip(),
-            #     "volume": volume.text.strip(),
-            #     "publisher": publisher.text.strip(),
-            #     "file_url": file.get_attribute('href').strip() if file else None,
-            #     "source_url": source.get_attribute('href').strip() if source else None,
-            #     "gsholar_url": unquote(gsholar.get_attribute('href').strip()) if gsholar else None,
-            #     # "abstract": abstract.text.strip(),
-            #     "total_journal_document": int(total_document)
-            # }
-            data = {}
+            file_url, source_url, gsholar_url, pdf_url, doi_url = None, None, None, None, None
+            for action in actions[1:]:
+                if 'Download Original' in action.text:
+                    file_url = action.get_attribute('href').strip()
+                elif 'Original Source' in action.text:
+                    source_url = action.get_attribute('href').strip()
+                elif 'Google Scholar' in action.text:
+                    gsholar_url = unquote(action.get_attribute('href').strip())
+                elif 'Full PDF' in action.text:
+                    pdf_url = unquote(action.get_attribute('href').strip())
+                elif 'DOI'in action.text:
+                    doi_url = action.get_attribute('href').strip()
+
+            author_list = []
+            authors = article.find_elements(
+                    By.XPATH, ".//a[contains(@class,'author-article')]"
+                    )
+            for author in authors:
+                author_list.append({
+                    "name": author.text,
+                    "url": author.get_attribute('href').strip()
+                })
+            data = {
+                "garuda_id": int(garuda_id),
+                "garuda_url": garuda_url,
+                "title": title.text.strip(),
+                "author": author_list,
+                "volume": volume.text.strip(),
+                "publisher": publisher.text.strip(),
+                "file_url": file_url,
+                "source_url": source_url,
+                "gsholar_url": gsholar_url,
+                "pdf_url": pdf_url,
+                "doi_url": doi_url,
+                "total_journal_document": int(total_document)
+            }
             data_list.append(data)
             data.update(data_values)
-            logger.info(data)
+            # logger.info(data)
         return data_list
 
 

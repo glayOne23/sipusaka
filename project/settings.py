@@ -91,6 +91,11 @@ DATABASES = {
        'PASSWORD'   : config('DB_PASSWORD', default=None), # <= 'YOUR_DB_PASSWORD'
        'HOST'       : config('DB_HOST',     default=None), # <= '127.0.0.1'
        'PORT'       : config('DB_PORT',     default=None, cast=int), # <= '5432'
+        # 'OPTIONS': {
+        #     'pool_name': 'sipusaka_pool',
+        #     'pool_size': 10,  # Number of connections in the pool
+        #     'pool_reset_session': True,  # Reset session state when reusing connections
+        # },
     }
 }
 
@@ -182,11 +187,18 @@ LOGGING = {
             # Add the verbose formatter
             'formatter': 'verbose',
         },
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'django.log',
+            'formatter': 'verbose',
+        },
     },
     # Define the root logger's settings
     'root': {
         # Use the console
         'handlers': ['console'],
+        # 'handlers': ['console', 'file'],
         'level': 'INFO',
     },
     # Define the django log module's settings

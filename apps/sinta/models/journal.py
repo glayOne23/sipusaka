@@ -28,6 +28,7 @@ class Journal(models.Model):
     garuda_subject = models.TextField(blank=True, null=True)
     aruna_subject = models.TextField(blank=True, null=True)
     doi_url = models.URLField(blank=True, null=True)
+    total_document = models.IntegerField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 

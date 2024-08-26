@@ -3,7 +3,7 @@ env/
 venv/
 __pycache__/
 .vscode
-
+apps/sinta/fixtures/article/*
 project/media/*
 .pydevproject
 db.sqlite3
@@ -11,3 +11,4 @@ db.sqlite3
 media/*
 !media/readme.txt
 .idea/
+django.log

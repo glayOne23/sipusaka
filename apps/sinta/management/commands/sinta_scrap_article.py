@@ -2,6 +2,7 @@
 
 import logging
 
+from apps.sinta.models.article import Article
 from apps.sinta.models.journal import Journal
 from apps.sinta.scraps._helper import get_browser
 from apps.sinta.scraps.article import ScrapArticle
@@ -22,7 +23,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         logger.info("mulai scrap Article")
-        journals = Journal.objects.filter(garuda_url__isnull=False)
+        journals = Journal.objects.filter(garuda_url__isnull=False, id__gt=1199)
         for journal in journals:
-            self.browser.get(journal.garuda_url)
-            ScrapArticle(self.browser, data_values={'journal': journal}).scrap()
+            if journal.garuda_url == 'https://garuda.kemdikbud.go.id/journal/view/12869':
+                self.browser.get('https://garuda.kemdikbud.go.id/journal/view/12869?page=4')
+            else:
+                self.browser.get(journal.garuda_url)
+            ScrapArticle(self.browser, data_values={'journal': journal}).scrap(Article)

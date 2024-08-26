@@ -3,6 +3,7 @@
 import logging
 import multiprocessing
 
+from apps.sinta.models.article import Article
 from apps.sinta.models.journal import Journal
 from apps.sinta.scraps._helper import get_browser
 from apps.sinta.scraps.article import ScrapArticle
@@ -25,7 +26,7 @@ class Command(BaseCommand):
         journals = list(Journal.objects.filter(garuda_url__isnull=False))
 
         # Start multiprocessing
-        with multiprocessing.Pool(processes=8) as pool:
+        with multiprocessing.Pool(processes=6) as pool:
             pool.map(scrape_journal, journals)
 
 def scrape_journal(journal):
