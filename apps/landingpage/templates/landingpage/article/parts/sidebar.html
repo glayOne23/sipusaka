@@ -1,0 +1,15 @@
+{% load angka %}
+
+<form action="{% url 'landingpage:journal.index' %}">
+  <div class="sidebar">
+
+    <div class="sidebar-item search-form">
+      <h3 class="sidebar-title mb-2">Masukkan kata kunci</h3>
+      <div class="">
+        <input type="text" name="search" value="{{search_text}}" placeholder="Masukkan kata kunci untuk mendapatkan rekomendasi jurnal yang sesuai dengan penelitian anda">
+        <button type="submit"><i class="bi bi-search"></i></button>
+      </div>
+      </div><!-- End sidebar search formn-->
+
+    </div><!-- End Blog Sidebar -->
+  </form>

@@ -1,0 +1,15 @@
+<div class="blog-pagination m-0">
+    <ul class="justify-content-center">
+        {% if articles.has_previous %}
+            <li style="border: 1px solid green;"><a href="?search={{search_text}}&page=1">&laquo; First</a></li>
+            <li style="border: 1px solid green;"><a href="?search={{search_text}}&page={{ articles.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        <li class="active">
+            <a href="">Page {{ articles.number }} of {{ articles.paginator.num_pages }}</a>
+        </li>
+        {% if articles.has_next %}
+            <li style="border: 1px solid green;"><a href="?search={{search_text}}&page={{ articles.next_page_number }}">Next</a></li>
+            <li style="border: 1px solid green;"><a href="?search={{search_text}}&page={{ articles.paginator.num_pages }}">Last &raquo;</a></li>
+        {% endif %}
+    </ul>
+</div><!-- End blog pagination -->

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     # ======[External Apps]======
     'hijack.contrib.admin',
     'hijack',
+    'watson',
     # =======[My Own Apps]=======
     'apps.sinta',
     'apps.landingpage'
