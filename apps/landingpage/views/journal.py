@@ -18,6 +18,7 @@ def index(request):
     # ===[Fetch Data]===
     journals_data = (
         Journal.objects
+        .filter(article__title__icontains=search_text)
         .annotate(total_article=Count('article'))
         .all()
         # .order_by('-impact')
