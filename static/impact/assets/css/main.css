@@ -19,7 +19,7 @@
 /* Colors */
 :root {
   --color-default: #222222;
-  --color-primary: #00A859;
+  --color-primary: #870196;
   --color-secondary: #F5874F;
 }
 
@@ -42,12 +42,12 @@ a {
 }
 
 a:hover {
-  color: #00A859;
+  color: #870196;
   text-decoration: none;
 }
 
 .bg-primary-color {
-  background-color: var(--color-primary);  
+  background-color: var(--color-primary);
 }
 
 h1,
@@ -252,7 +252,7 @@ section {
 # Header
 --------------------------------------------------------------*/
 .topbar {
-  background: #019851;
+  background: #70017c;
   height: 40px;
   font-size: 14px;
   transition: all 0.5s;
@@ -442,7 +442,7 @@ section {
     font-size: 15px;
     text-transform: none;
     font-weight: 600;
-    color: #00A859;
+    color: #870196;
   }
 
   .navbar .dropdown ul a i {
@@ -559,7 +559,7 @@ section {
   .navbar .getstarted:hover,
   .navbar .getstarted:focus:hover {
     color: #fff;
-    background: rgba(0, 168, 89, 0.8);
+    background: #70017C;
   }
 
   .navbar .dropdown ul,
@@ -612,7 +612,7 @@ section {
     content: "";
     position: fixed;
     inset: 0;
-    background: rgba(0, 106, 93, 0.8);
+    background: #70017C;
     z-index: 9996;
   }
 }
@@ -1034,7 +1034,7 @@ section {
 }
 
 .services .service-item:hover .icon:before {
-  background: #00A859;
+  background: #870196;
 }
 
 .services .service-item:hover h3 {
@@ -1758,7 +1758,7 @@ section {
 
 .contact .info-item {
   width: 100%;
-  background-color: #019851;
+  background-color: #70017c;
   margin-bottom: 20px;
   padding: 20px;
   border-radius: 10px;
@@ -1890,7 +1890,7 @@ section {
 }
 
 .contact .php-email-form button[type=submit]:hover {
-  background: rgba(0, 168, 89, 0.8);
+  background: #70017C;
 }
 
 @-webkit-keyframes animate-loading {
@@ -2012,7 +2012,7 @@ section {
   padding: 60px 30px;
   position: relative;
   overflow: hidden;
-  background: #00A859;
+  background: #870196;
   box-shadow: 0 0 29px 0 rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease-in-out;
   border-radius: 8px;
@@ -2044,7 +2044,7 @@ section {
 }
 
 .hero .icon-box:hover {
-  background: #019851;
+  background: #70017c;
 }
 
 .hero .icon-box:hover .title a,
@@ -2395,7 +2395,7 @@ section {
 }
 
 .blog .sidebar .search-form div button:hover {
-  background: rgba(0, 168, 89, 0.8);
+  background: #70017C;
 }
 
 .blog .sidebar .categories ul {
@@ -2573,7 +2573,7 @@ section {
 
 .blog .comments .reply-form input:focus {
   box-shadow: none;
-  border-color: rgba(0, 168, 89, 0.8);
+  border-color: #70017C;
 }
 
 .blog .comments .reply-form textarea {
@@ -2584,7 +2584,7 @@ section {
 
 .blog .comments .reply-form textarea:focus {
   box-shadow: none;
-  border-color: rgba(0, 168, 89, 0.8);
+  border-color: #70017C;
 }
 
 .blog .comments .reply-form .form-group {
@@ -2673,7 +2673,7 @@ section {
 
 .footer .footer-links ul i {
   padding-right: 2px;
-  color: rgba(0, 168, 89, 0.8);
+  color: #70017C;
   font-size: 12px;
   line-height: 0;
 }

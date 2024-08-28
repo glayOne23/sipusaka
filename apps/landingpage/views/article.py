@@ -1,5 +1,9 @@
 """Article View"""
+import operator
+from functools import reduce
+
 from django.core.paginator import Paginator
+from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
 
 from apps.sinta.models.article import Article
@@ -22,9 +26,13 @@ def index(request, journal_id):
     articles_data = (
         Article.objects
         .filter(journal=journal_obj)
-        .filter(title__icontains=search_text)
         .order_by('-id')
     )
+
+    if search_text:
+        search_list = search_text.split(',')
+        query = reduce(operator.or_, (Q(title__icontains = item) for item in search_list))
+        articles_data = articles_data.filter(query)
 
     # ===[Fetch Paginator]===
     per_page = 10
