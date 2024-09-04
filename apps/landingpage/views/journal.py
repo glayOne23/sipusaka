@@ -1,5 +1,6 @@
 """Journal View"""
 import operator
+import time
 from functools import reduce
 
 from django.core.paginator import Paginator
@@ -11,8 +12,10 @@ from apps.sinta.models.journal import Journal
 
 def index(request):
     """list of journal"""
-
     context = {}
+
+    # Start Time
+    start_time = time.time()
 
     # ===[GET Search]===
     search_text = request.GET.get('search', '')
@@ -21,7 +24,7 @@ def index(request):
     # ===[Fetch Data]===
     journals_data = (
         Journal.objects
-        .all()
+        .prefetch_related('article_set')
         # .order_by('-impact')
         .order_by('id')
     )
@@ -40,10 +43,16 @@ def index(request):
     context['journals'] = journals
     dari = journals.number if journals.number == 1 else ((journals.number-1) * per_page) + 1
     context['tampilkan'] = {
-    'from': dari,
-    'to': journals.object_list.count() if journals.number == 1 else dari + journals.object_list.count() - 1,
-    'total': journals_data.count()
+        'from': dari,
+        'to': journals.object_list.count() if journals.number == 1 else dari + journals.object_list.count() - 1,
+        'total': journals_data.count()
     }
+
+    # End Time
+    end_time = time.time()
+    query_time = end_time - start_time
+    # Print the time taken for the query to execute
+    print(f"Query Execution Time: {query_time:.4f} seconds")
 
     # ===[Render Template]===
     context['page'] = 'journal'
