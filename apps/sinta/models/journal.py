@@ -12,6 +12,7 @@ class Journal(models.Model):
     gsholar_url = models.URLField(blank=True, null=True)
     website_url = models.URLField(blank=True, null=True)
     editor_url = models.URLField(blank=True, null=True)
+    author_guideline_url = models.URLField(blank=True, null=True)
     pissn = models.CharField(max_length=255, blank=True, null=True)
     eissn = models.CharField(max_length=255, blank=True, null=True)
     subject = models.TextField(blank=True, null=True)

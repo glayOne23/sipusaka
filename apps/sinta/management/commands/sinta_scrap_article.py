@@ -23,10 +23,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         logger.info("mulai scrap Article")
-        journals = Journal.objects.filter(garuda_url__isnull=False, id__gt=1199)
+        journals = Journal.objects.filter(garuda_url__isnull=False, id__gte=5563)
         for journal in journals:
-            if journal.garuda_url == 'https://garuda.kemdikbud.go.id/journal/view/12869':
-                self.browser.get('https://garuda.kemdikbud.go.id/journal/view/12869?page=4')
+            if journal.garuda_url == 'https://garuda.kemdikbud.go.id/journal/view/27281':
+                self.browser.get('https://garuda.kemdikbud.go.id/journal/view/27281?page=4')
             else:
                 self.browser.get(journal.garuda_url)
+            # self.browser.get(journal.garuda_url)
             ScrapArticle(self.browser, data_values={'journal': journal}).scrap(Article)
