@@ -25,15 +25,19 @@ def index(request):
     journals_data = (
         Journal.objects
         .prefetch_related('article_set')
-        # .order_by('-impact')
-        .order_by('id')
     )
     if search_text:
         search_list = search_text.split(',')
-        query = reduce(operator.or_, (Q(article__title__icontains = item) for item in search_list))
+        # query = reduce(operator.or_, (Q(article__title__icontains = item) for item in search_list))
+        query = reduce(operator.or_, (Q(article__title__icontains=item.strip()) for item in search_list))
         journals_data = journals_data.filter(query)
 
-    journals_data = journals_data.annotate(total_article=Count('article'))
+    journals_data = (
+        journals_data
+        .annotate(total_article=Count('article'))
+        .order_by('-impact')
+        # .order_by('-id')
+    )
 
     # ===[Fetch Paginator]===
     per_page = 10
@@ -41,11 +45,10 @@ def index(request):
     paginator = Paginator(journals_data, per_page)
     journals = paginator.get_page(page_number)
     context['journals'] = journals
-    dari = journals.number if journals.number == 1 else ((journals.number-1) * per_page) + 1
     context['tampilkan'] = {
-        'from': dari,
-        'to': journals.object_list.count() if journals.number == 1 else dari + journals.object_list.count() - 1,
-        'total': journals_data.count()
+        'from': journals.start_index(),
+        'to': journals.end_index(),
+        'total': journals.paginator.count
     }
 
     # End Time

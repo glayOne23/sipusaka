@@ -40,11 +40,10 @@ def index(request, journal_id):
     paginator = Paginator(articles_data, per_page)
     articles = paginator.get_page(page_number)
     context['articles'] = articles
-    dari = articles.number if articles.number == 1 else ((articles.number-1) * per_page) + 1
     context['tampilkan'] = {
-    'from': dari,
-    'to': articles.object_list.count() if articles.number == 1 else dari + articles.object_list.count() - 1,
-    'total': articles_data.count()
+        'from': articles.start_index(),
+        'to': articles.end_index(),
+        'total': articles.paginator.count
     }
 
     # ===[Render Template]===

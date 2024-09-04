@@ -8,7 +8,7 @@ class Article(models.Model):
     journal = models.ForeignKey(Journal, on_delete=models.SET_NULL, blank=True, null=True)
     garuda_id = models.IntegerField(unique=True)
     garuda_url = models.URLField(blank=True, null=True)
-    title = models.TextField(blank=True, null=True, db_index=True)
+    title = models.CharField(max_length=600, blank=True, null=True, db_index=True)
     author = models.JSONField(blank=True, null=True)
     volume = models.TextField(blank=True, null=True)
     publisher = models.TextField(blank=True, null=True)
