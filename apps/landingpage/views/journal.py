@@ -5,8 +5,12 @@ from functools import reduce
 
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
+from django.db.models.expressions import RawSQL
+from django.db import connection
+
 from django.shortcuts import render
 
+from apps.sinta.models.article import Article
 from apps.sinta.models.journal import Journal
 
 
@@ -26,11 +30,25 @@ def index(request):
         Journal.objects
         # .prefetch_related('article_set')
     )
+
+    # if search_text:
+    #     search_list = search_text.split(',')
+    #     query = reduce(operator.or_, (Q(article__title__icontains=item.strip()) for item in search_list))
+    #     journals_data = journals_data.filter(query)
+
     if search_text:
+        query = f"SELECT id, journal_id FROM sinta_article WHERE "
         search_list = search_text.split(',')
-        # query = reduce(operator.or_, (Q(article__title__icontains = item) for item in search_list))
-        query = reduce(operator.or_, (Q(article__title__icontains=item.strip()) for item in search_list))
-        journals_data = journals_data.filter(query)
+        for index, search2 in enumerate(search_list):
+            search2 = search2.strip()
+            search2_list = search2.split(' ')
+            search_fulltext = ' '.join(map(lambda x: f'+{x.strip()}', search2_list)).strip()
+            additional = "OR " if index != 0 else ""
+            text = f"{additional}MATCH(title) AGAINST ('{search_fulltext}' IN BOOLEAN MODE)"
+            query += text
+        matching_articles = Article.objects.raw(query)
+
+        journals_data = journals_data.filter(article__in=matching_articles)
 
     journals_data = (
         journals_data
@@ -44,6 +62,8 @@ def index(request):
     page_number = request.GET.get('page', 1)
     paginator = Paginator(journals_data, per_page)
     journals = paginator.get_page(page_number)
+
+    # Add to context
     context['journals'] = journals
     context['tampilkan'] = {
         'from': journals.start_index(),

@@ -61,24 +61,38 @@
                                     <a href="{% url 'landingpage:article.index' data.id %}?search={{search_text}}">{{data.name}}</a>
                                   </h2>
 
-                                  <p class="post-date mb-2">
-                                    <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{data.gscholar_url}}">
-                                      <i class="bi bi-tag"></i>
-                                      Google Scholar
-                                    </a>
-                                    <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{data.website_url}}">
-                                      <i class="bi bi-globe"></i>
-                                      Website
-                                    </a>
-                                    <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{data.editor_url}}">
-                                      <i class="bi bi-pencil"></i>
-                                      Editor URL
-                                    </a>
-                                    <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{data.author_guideline_url}}">
-                                      <i class="bi bi-blockquote-left"></i>
-                                      Author Guideline
-                                    </a>
-                                  </p>
+                                  <div class="row">
+                                    <div class="col">
+                                      <p class="post-date mb-2">
+                                        {% if data.gsholar_url %}
+                                          <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{data.gsholar_url}}">
+                                            <i class="bi bi-tag"></i>
+                                            Google Scholar
+                                          </a>
+                                        {% endif %}
+                                        {% if data.website_url %}
+                                          <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{data.website_url}}">
+                                            <i class="bi bi-globe"></i>
+                                            Website
+                                          </a>
+                                        {% endif %}
+                                        {% if data.editor_url %}
+                                          <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{data.editor_url}}">
+                                            <i class="bi bi-pencil"></i>
+                                            Editor URL
+                                          </a>
+                                        {% endif %}
+                                      </p>
+                                    </div>
+                                    <div class="col" style="text-align: right;">
+                                      {% if data.author_guideline_url %}
+                                        <a class="btn btn-purple" style="margin-right: 1em;" target="_blank" href="{{data.author_guideline_url}}">
+                                          <i class="bi bi-blockquote-left"></i>
+                                          Author Guideline
+                                        </a>
+                                      {% endif %}
+                                    </div>
+                                  </div>
 
                                   <p class="affiliation mb-2">
                                     <a href="">

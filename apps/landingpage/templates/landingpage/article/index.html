@@ -39,24 +39,38 @@
                         <a href="">{{journal_obj.name}}</a>
                       </h2>
 
-                      <p class="post-date mb-2">
-                        <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{journal_obj.gscholar_url}}">
-                          <i class="bi bi-tag"></i>
-                          Google Scholar
-                        </a>
-                        <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{journal_obj.website_url}}">
-                          <i class="bi bi-globe"></i>
-                          Website
-                        </a>
-                        <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{journal_obj.editor_url}}">
-                          <i class="bi bi-pencil"></i>
-                          Editor URL
-                        </a>
-                        <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{journal_obj.author_guideline_url}}">
-                          <i class="bi bi-blockquote-left"></i>
-                          Author Guideline
-                        </a>
-                      </p>
+                      <div class="row">
+                        <div class="col">
+                          <p class="post-date mb-2">
+                            {% if journal_obj.gsholar_url %}
+                              <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{journal_obj.gsholar_url}}">
+                                <i class="bi bi-tag"></i>
+                                Google Scholar
+                              </a>
+                            {% endif %}
+                            {% if journal_obj.website_url %}
+                              <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{journal_obj.website_url}}">
+                                <i class="bi bi-globe"></i>
+                                Website
+                              </a>
+                            {% endif %}
+                            {% if journal_obj.editor_url %}
+                              <a class="text-grey" style="margin-right: 1em;" target="_blank" href="{{journal_obj.editor_url}}">
+                                <i class="bi bi-pencil"></i>
+                                Editor URL
+                              </a>
+                            {% endif %}
+                          </p>
+                        </div>
+                        <div class="col" style="text-align: right;">
+                          {% if journal_obj.author_guideline_url %}
+                            <a class="btn btn-purple" style="margin-right: 1em;" target="_blank" href="{{journal_obj.author_guideline_url}}">
+                              <i class="bi bi-blockquote-left"></i>
+                              Author Guideline
+                            </a>
+                          {% endif %}
+                        </div>
+                      </div>
 
                       <p class="affiliation mb-2">
                         <a href="">
