@@ -5,9 +5,6 @@ from functools import reduce
 
 from django.core.paginator import Paginator
 from django.db.models import Count, Q
-from django.db.models.expressions import RawSQL
-from django.db import connection
-
 from django.shortcuts import render
 
 from apps.sinta.models.article import Article
