@@ -28,11 +28,13 @@ def index(request):
         # .prefetch_related('article_set')
     )
 
+    # # Algo 1
     # if search_text:
     #     search_list = search_text.split(',')
     #     query = reduce(operator.or_, (Q(article__title__icontains=item.strip()) for item in search_list))
     #     journals_data = journals_data.filter(query)
 
+    # Algo 2
     if search_text:
         query = f"SELECT id, journal_id FROM sinta_article WHERE "
         search_list = search_text.split(',')
@@ -46,6 +48,17 @@ def index(request):
         matching_articles = Article.objects.raw(query)
 
         journals_data = journals_data.filter(article__in=matching_articles)
+
+    # # Algo 3
+    # if search_text:
+    #     search_list = search_text.split(',')
+    #     search_fulltext = ' '.join(map(lambda x: f'{x.strip()}', search_list)).strip()
+    #     matching_articles = Article.objects.raw(
+    #         # f"SELECT id, journal_id FROM sinta_article WHERE MATCH(title) AGAINST ('{search_fulltext}' IN BOOLEAN MODE)"
+    #         "SELECT id, journal_id FROM sinta_article WHERE MATCH(title) AGAINST ('|`keadilan` |`adam smith`' IN BOOLEAN MODE)"
+    #     )
+
+    #     journals_data = journals_data.filter(article__in=matching_articles)
 
     journals_data = (
         journals_data
