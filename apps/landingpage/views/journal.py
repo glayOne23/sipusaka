@@ -24,7 +24,7 @@ def index(request):
     # ===[Fetch Data]===
     journals_data = (
         Journal.objects
-        .prefetch_related('article_set')
+        # .prefetch_related('article_set')
     )
     if search_text:
         search_list = search_text.split(',')
