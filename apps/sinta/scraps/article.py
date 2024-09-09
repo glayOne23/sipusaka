@@ -30,6 +30,9 @@ class ScrapArticle(ScrapSinta):
             """
         ).text.replace('Articles', '').replace('Documents', '').replace(',','').strip()
 
+        if int(total_document) == 0:
+            return {}
+
         articles = self.browser.find_elements(
             By.XPATH, """
             //div[contains(@class,'ui segment padded article-box')]//div[contains(@class,'article-item')]
