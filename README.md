@@ -18,7 +18,7 @@
     $ python3 -m venv env
 
     # aktifkan environment variable python
-    source env/bin/activate
+    $ source env/bin/activate
     ```
 4. Install library python yang dibutuhkan menggunakan command line berikut:
     ```bash
@@ -28,7 +28,7 @@
     # install library
     $ pip install -r requirements.txt
     ```
-5. Buat database mysql, download sql file pada tautan berikut: . Export sql file tersebut ke dalam database
+5. Buat database mysql, download sql file pada tautan berikut: https://drive.google.com/file/d/1MHO07Rs8v69JBbWnvtbdhO2Ocaf0Xmwn/view?usp=sharing. Export sql file tersebut ke dalam database
 6. Copy .env_dev dan rubah nama menjadi .env lalu sesuaikan DB_NAME, DB_USER, DB_PASSWORD,  DB_HOST, DB_PORT pada .env dengan database yang dibuat
     ```bash
     # copy .env_dev ke .env
@@ -37,4 +37,8 @@
 7. Jalankan command line berikut untuk meletakkan file static pada server:
     ```bash
     $ python manage.py collectstatic
+    ```
+8. Jalankan django
+    ```bash
+    $ python manage.py runserver
     ```
