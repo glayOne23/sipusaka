@@ -3,7 +3,7 @@ pylint-django==2.5.5
 
 Django==5.0.7
 django-hijack==3.6.0
-django-watson==1.6.3
+# django-watson==1.6.3
 
 mysqlclient==2.2.4
 
@@ -11,5 +11,5 @@ python-decouple==3.8
 
 selenium==4.23.1
 
-django-db-connection-pool==1.2.5
-mysql-connector-python==9.0.0
+# django-db-connection-pool==1.2.5
+# mysql-connector-python==9.0.0

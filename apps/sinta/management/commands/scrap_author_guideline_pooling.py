@@ -25,7 +25,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         logger.info("mulai scrap Author Guideline")
-        journals = list(Journal.objects.filter(website_url__isnull=False, author_guideline_url__isnull=True))
+        journals = list(Journal.objects.filter(website_url__isnull=False, id__gt=415, author_guideline_url__isnull=True))
 
         # Start multiprocessing
         with multiprocessing.Pool(processes=5) as pool:
