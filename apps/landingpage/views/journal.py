@@ -63,7 +63,7 @@ def index(request):
     journals_data = (
         journals_data
         .annotate(total_article=Count('article'))
-        .order_by('-impact')
+        .order_by('-total_article')
         # .order_by('-id')
     )
 
