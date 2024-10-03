@@ -28,38 +28,32 @@ def index(request):
         # .prefetch_related('article_set')
     )
 
-    # # Algo 1
-    # if search_text:
-    #     search_list = search_text.split(',')
-    #     query = reduce(operator.or_, (Q(article__title__icontains=item.strip()) for item in search_list))
-    #     journals_data = journals_data.filter(query)
-
     # Algo 2
-    if search_text:
-        query = f'''SELECT id, journal_id FROM sinta_article WHERE '''
-        search_list = search_text.split(',')
-        for index, search2 in enumerate(search_list):
-            search2 = search2.strip()
-            # search2_list = search2.split(' ')
-            # search_fulltext = ' '.join(map(lambda x: f'+{x.strip()}', search2_list)).strip()
-            search_fulltext=search2
-            additional = "OR " if index != 0 else ""
-            text = f'''{additional}MATCH(title) AGAINST ('"{search2}"' IN BOOLEAN MODE)'''
-            query += text
-        matching_articles = Article.objects.raw(query)
-
-        journals_data = journals_data.filter(article__in=matching_articles)
-
-    # # Algo 3
     # if search_text:
+    #     query = f'''SELECT id, journal_id FROM sinta_article WHERE '''
     #     search_list = search_text.split(',')
-    #     search_fulltext = ' '.join(map(lambda x: f'{x.strip()}', search_list)).strip()
-    #     matching_articles = Article.objects.raw(
-    #         # f"SELECT id, journal_id FROM sinta_article WHERE MATCH(title) AGAINST ('{search_fulltext}' IN BOOLEAN MODE)"
-    #         "SELECT id, journal_id FROM sinta_article WHERE MATCH(title) AGAINST ('|`keadilan` |`adam smith`' IN BOOLEAN MODE)"
-    #     )
+    #     for index, search2 in enumerate(search_list):
+    #         search2 = search2.strip()
+    #         # search2_list = search2.split(' ')
+    #         # search_fulltext = ' '.join(map(lambda x: f'+{x.strip()}', search2_list)).strip()
+    #         search_fulltext=search2
+    #         additional = "OR " if index != 0 else ""
+    #         text = f'''{additional}MATCH(title) AGAINST ('"{search2}"' IN BOOLEAN MODE)'''
+    #         query += text
+    #     matching_articles = Article.objects.raw(query)
 
     #     journals_data = journals_data.filter(article__in=matching_articles)
+
+    # Algo 3
+    if search_text:
+        search_list = search_text.split(',')
+        search_fulltext = ''.join(map(lambda x: f'"{x.strip()}"', search_list)).strip()
+        matching_articles = Article.objects.raw(
+            # f'''SELECT id, journal_id FROM sinta_article WHERE MATCH(title) AGAINST ('{search_fulltext}' IN BOOLEAN MODE)'''
+            f'''SELECT id, journal_id FROM sinta_article WHERE MATCH(title) AGAINST ('{search_fulltext}' IN BOOLEAN MODE)'''
+        )
+
+        journals_data = journals_data.filter(article__in=matching_articles)
 
     journals_data = (
         journals_data
