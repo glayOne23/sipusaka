@@ -29,16 +29,20 @@
     $ pip install -r requirements.txt
     ```
 5. Buat database mysql, download sql file pada tautan berikut: https://drive.google.com/file/d/1MHO07Rs8v69JBbWnvtbdhO2Ocaf0Xmwn/view?usp=sharing. Export sql file tersebut ke dalam database
-6. Copy .env_dev dan rubah nama menjadi .env lalu sesuaikan DB_NAME, DB_USER, DB_PASSWORD,  DB_HOST, DB_PORT pada .env dengan database yang dibuat
+6. Buat fulltext query untuk searching fulltext django dapat aktif dengan menjalankan query tersebut pada database
+    ```
+    $ ALTER TABLE sinta_article ADD FULLTEXT INDEX fulltext_idx_sinta_article_title (title);
+    ```
+7. Copy .env_dev dan rubah nama menjadi .env lalu sesuaikan DB_NAME, DB_USER, DB_PASSWORD,  DB_HOST, DB_PORT pada .env dengan database yang dibuat
     ```bash
     # copy .env_dev ke .env
     $ cp .env_dev .env
     ```
-7. Jalankan command line berikut untuk meletakkan file static pada server:
+8. Jalankan command line berikut untuk meletakkan file static pada server:
     ```bash
     $ python manage.py collectstatic
     ```
-8. Jalankan django
+9. Jalankan django
     ```bash
     $ python manage.py runserver
     ```
