@@ -36,14 +36,15 @@ def index(request):
 
     # Algo 2
     if search_text:
-        query = f"SELECT id, journal_id FROM sinta_article WHERE "
+        query = f'''SELECT id, journal_id FROM sinta_article WHERE '''
         search_list = search_text.split(',')
         for index, search2 in enumerate(search_list):
             search2 = search2.strip()
-            search2_list = search2.split(' ')
-            search_fulltext = ' '.join(map(lambda x: f'+{x.strip()}', search2_list)).strip()
+            # search2_list = search2.split(' ')
+            # search_fulltext = ' '.join(map(lambda x: f'+{x.strip()}', search2_list)).strip()
+            search_fulltext=search2
             additional = "OR " if index != 0 else ""
-            text = f"{additional}MATCH(title) AGAINST ('{search_fulltext}' IN BOOLEAN MODE)"
+            text = f'''{additional}MATCH(title) AGAINST ('"{search2}"' IN BOOLEAN MODE)'''
             query += text
         matching_articles = Article.objects.raw(query)
 
