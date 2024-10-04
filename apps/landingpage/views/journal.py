@@ -50,7 +50,8 @@ def index(request):
         search_fulltext = ''.join(map(lambda x: f'"{x.strip()}"', search_list)).strip()
         matching_articles = Article.objects.raw(
             # f'''SELECT id, journal_id FROM sinta_article WHERE MATCH(title) AGAINST ('{search_fulltext}' IN BOOLEAN MODE)'''
-            f'''SELECT id, journal_id FROM sinta_article WHERE MATCH(title) AGAINST ('{search_fulltext}' IN BOOLEAN MODE)'''
+            '''SELECT id, journal_id FROM sinta_article WHERE MATCH(title) AGAINST (%s IN BOOLEAN MODE)''',
+            [search_fulltext]
         )
 
         journals_data = journals_data.filter(article__in=matching_articles)
